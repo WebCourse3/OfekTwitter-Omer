@@ -1,0 +1,23 @@
+#body {
+    width: 100%;
+    display: inline-block;
+}
+
+#usersTable {
+
+}
+#usersTable tr td {
+    width: 15%;
+}
+
+.userBox {
+    display: block;
+    border: 3px solid lightgrey;
+    padding: 10px 10px;
+}
+
+#followees {
+    border: solid 3px lightgrey;
+    padding: 10px 40px;
+    margin-top: 10px;
+}

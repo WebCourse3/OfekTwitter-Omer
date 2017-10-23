@@ -17,3 +17,7 @@ body { margin: 0;}
 .links {
     float: right;
 }
+
+#body {
+    text-align: center;
+}
