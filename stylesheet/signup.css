@@ -1,0 +1,42 @@
+#body {
+    text-align: center;
+}
+
+#loginBox {
+    margin-top:20px;
+    overflow: hidden;
+    padding:0;
+    width: 25%;
+    display: inline-block;
+    border-radius: 5px;
+    border: solid 1px black;
+}
+
+#loginBox div > p {
+    margin:0;
+}
+
+#loginBox > button {
+    float: right;
+    margin: 5px 10px 5px 0;
+}
+
+#innerBox {
+    text-align: center;
+    display: inline-block;
+    padding: 5px;
+    width: 85%;
+    border: solid 1px grey;
+    margin-top:10px;
+}
+
+#innerBox p {
+    font-size: 20px;
+    display: inline-block;
+    padding-right: 5px;
+}
+
+#innerBox input {
+    float: right;
+    margin-right: 20px;
+}

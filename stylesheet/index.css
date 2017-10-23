@@ -1,0 +1,26 @@
+
+/* Body Styling */
+#body {
+    text-align: center;
+}
+#newPost {
+    padding: 20px 0;
+}
+
+#feed {
+    width: 50%;
+    display: inline-block;
+    text-align: left;
+}
+/* Post Styling */
+.post {
+    width: 40%;
+
+}
+.post > img {
+    float: left;
+}
+
+.post p {
+    padding: 0 50px;
+}
