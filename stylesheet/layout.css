@@ -1,26 +1,19 @@
 body { margin: 0;}
 
-.header {
-    width: 100%;
-    background-color: #555;
-    overflow: hidden;
+#navigation-bar {
+	background-color: #0a64eb;
+	border-radius: 0;
 }
-
-.header a {
-    text-align: center;
-    padding: 12px 10px;
-    color: white;
-    font-size: 24px;
-    text-decoration: none;
+.navbar-nav {
+	float: none;
 }
-
-.links {
-    float: right;
+.navbar-nav li a {
+	padding: 0;
+	color: white !important;
 }
-
+#links {
+	float: right;
+}
 .logo {
     float:left;
-}
-#body {
-    text-align: center;
 }
