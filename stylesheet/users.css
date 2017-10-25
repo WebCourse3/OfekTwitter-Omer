@@ -1,10 +1,10 @@
 .userBox {
     padding: 0 5px;
 	margin: 0 3px;
-	height: 175px;
+	height: 150px;
 }/**/
 .userBox > div > img {
-	margin-bottom: 5px;
+	margin-bottom: 2px;
 }
 
 .userBox > div >  p {

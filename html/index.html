@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="../stylesheet/index.css">
 	<link rel="stylesheet" href="../stylesheet/navbar.css">
 	<link rel="stylesheet" href="../stylesheet/bootstrap.css">
-<!-->
+	<script src="../scripts/index.js" type="text/javascript"></script>
 </head>
 <body>
 	<nav class="navbar navbar-default" id="navigation-bar">
@@ -23,44 +23,14 @@
 	</nav>
 	<div class="row col-xs-offset-2 col-xs-8">
 		<div class="row">
-			<textarea class="col-xs-12" placeholder="tweet"></textarea>
-			<button id="submit-btn" class="btn btn-primary">Publish</button>
+			<textarea id="tweetBox" class="col-xs-12" placeholder="tweet"></textarea>
+			<button id="submit-btn" class="btn btn-primary" onclick="addTweet()">Publish</button>
 		</div>
-		<div class="row post">
-			<img src="../images/useravatar_preview.png">
-			<ul>
-				<li><b>Kid says:</b></li>
-				<li><p>Dad, wanna hear a joke?</p></li>
-			</ul>
-		</div>
-		<div class="row post">
-			<img src="../images/useravatar_preview.png">
-			<ul>
-				<li><b>Dad says:</b></li>
-				<li><p>sure</p></li>
-			</ul>
-		</div>
-		<div class="row post">
-			<img src="../images/useravatar_preview.png">
-			<ul>
-				<li><b>Kid says:</b></li>
-				<li><p>MVP</p></li>
-			</ul>
-		</div>
-		<div class="row post">
-			<img src="../images/useravatar_preview.png">
-			<ul>
-				<li><b>Dad says:</b></li>
-				<li><p>I don't get it...</p></li>
-			</ul>
-		</div>
-		<div class="row post">
-			<img src="../images/useravatar_preview.png">
-			<ul>
-				<li><b>Kid says:</b></li>
-				<li><p>I know you don't, you scrub</p></li>
-			</ul>
+		<div id="feed">
 		</div>
 	</div>
+	<script type="text/javascript">
+		populateFeed();
+	</script>
 </body>
 </html>
