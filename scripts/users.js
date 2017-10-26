@@ -28,24 +28,21 @@ function populateUsers() {
 
 function createUserDiv(username, isFollowing) {
 	var df = document.createDocumentFragment();
+
 	var div1 = document.createElement('div');
 	div1.className = 'panel panel-default col-xs-2 userBox';
-	df.appendChild(div1);
+	div1.id = username;
 
 	var div2 = document.createElement('div');
 	div2.className = 'panel-body';
-	div1.appendChild(div2);
 
 	var img = document.createElement('img');
 	img.src = '../images/useravatar_preview.png';
-	div2.appendChild(img);
 
 	var br = document.createElement('br');
-	div2.appendChild(br);
 
 	var button = document.createElement('button');
 	button.className = 'btn btn-primary';
-	button.id = username + 'Btn';
 	button.addEventListener('click', function () {
 		toggleFollow(this);
 	});
@@ -56,48 +53,54 @@ function createUserDiv(username, isFollowing) {
 	else {
 		button.innerText = 'Follow';
 	}
-	div2.appendChild(button);
 
 	var p = document.createElement('p');
 	p.innerText = username;
-	div2.appendChild(p);
 
+	df.appendChild(div1);
+	div1.appendChild(div2);
+	div2.appendChild(img);
+	div2.appendChild(br);
+	div2.appendChild(button);
+	div2.appendChild(p);
 	return df;
 }
 
 function toggleFollow(element) {
-	var followers = document.getElementById('followersArea');
 	var usersArea = document.getElementById('usersArea');
+	var followers = document.getElementById('followersArea');
+	var div = element.parentNode.parentNode;
 
 	if (element.innerText === 'Follow') {
 		for (var i = 0; i < users.length; i++) {
-			if (element.id === users[i].username + 'Btn') {
+			if (users[i].hasOwnProperty(div.id)) {
 				users[i].isFollowing = false;
 				break;
 			}
 		}
 		element.innerText = 'Unfollow';
-		element.parentNode.parentNode.classList.remove('col-xs-2');
-		followers.appendChild(element.parentNode.parentNode);
+		div.classList.remove('col-xs-2');
+		followers.appendChild(div);
 	}
 	else if (element.innerText === 'Unfollow') {
 		for (var i = 0; i < users.length; i++) {
-			if (element.id === users[i].username + 'Btn') {
+			if (users[i].hasOwnProperty(div.id)) {
 				users[i].isFollowing = true;
 				break;
 			}
 		}
 		element.innerText = 'Follow';
-		element.parentNode.parentNode.classList.add('col-xs-2');
-		usersArea.appendChild(element.parentNode.parentNode);
+		div.classList.add('col-xs-2');
+		usersArea.appendChild(div);
 	}
 }
 
 function filterUsers() {
 	var input = document.getElementById('search_txtbx');
-	console.log(input.value.toUpperCase());
-	var filter = input.value.toUpperCase();
 	var boxes = document.getElementsByClassName('userBox');
+
+	var filter = input.value.toUpperCase();
+
 
 	for (var i = 0; i < boxes.length; i++) {
 		var name = boxes[i].getElementsByTagName('p')[0];

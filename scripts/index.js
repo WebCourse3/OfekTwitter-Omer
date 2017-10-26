@@ -9,8 +9,8 @@ var posts = [
 function populateFeed() {
 	var feed = document.getElementById("feed");
 	for (var i = 0; i < posts.length; i++) {
-		var div = createPostdiv(posts[i].username,posts[i].text);
-		feed.appendChild(div);
+		var df = createPostDiv(posts[i].username,posts[i].text);
+		feed.appendChild(df);
 	}
 }
 
@@ -18,12 +18,13 @@ function addTweet() {
 	var textBox = document.getElementById("tweetBox");
 	var feed = document.getElementById("feed");
 
-	var div = createPostdiv("someone",textBox.value);
-	feed.appendChild(div);
+	var df = createPostDiv("someone",textBox.value);
+	feed.appendChild(df);
 	textBox.value = "";
 }
 
-function createPostdiv(person,text) {
+function createPostDiv(person,text) {
+	var df = document.createDocumentFragment();
 	var div = document.createElement('div');
 	div.className = "row post";
 
@@ -31,19 +32,18 @@ function createPostdiv(person,text) {
 	var img = document.createElement('img');
 	img.src = "../images/useravatar_preview.png";
 
-	div.appendChild(img);
-
 	var li1 = document.createElement('li');
 	var b = document.createElement('b');
 	b.innerText = person;
-	li1.appendChild(b);
 
 	var li2 = document.createElement('li');
 	li2.innerText= text;
 
-	ul.appendChild(li1);
-	ul.appendChild(li2);
+	df.appendChild(div);
+	div.appendChild(img);
 	div.appendChild(ul);
-
-	return div;
+	ul.appendChild(li1);
+	li1.appendChild(b);
+	ul.appendChild(li2);
+	return df;
 }
