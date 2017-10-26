@@ -34,7 +34,7 @@ function createPostDiv(person,text) {
 
 	var li1 = document.createElement('li');
 	var b = document.createElement('b');
-	b.innerText = person;
+	b.innerText = person + ":";
 
 	var li2 = document.createElement('li');
 	li2.innerText= text;

@@ -1,14 +1,9 @@
 .userBox {
-    padding: 0 5px;
-	margin: 0 3px;
+	margin: 0 1%;
 	height: 150px;
-}/**/
+}
 .userBox > div > img {
 	margin-bottom: 2px;
-}
-
-.userBox > div >  p {
-	margin: 0;
 }
 .row {
     text-align: center;
