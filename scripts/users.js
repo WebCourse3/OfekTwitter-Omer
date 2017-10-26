@@ -11,17 +11,17 @@ var users = [
 
 function populateUsers() {
 	var usersArea = document.getElementById('usersArea');
+	var followersArea = document.getElementById('followersArea');
 
 	for (var i = 0; i < users.length; i++) {
-		var div = createUserDiv(users[i].username, users[i].isFollowing);
+		var df = createUserDiv(users[i].username, users[i].isFollowing);
 
 		if (users[i].isFollowing) {
-			div.firstChild.className = 'panel panel-default userBox';
-			var followersArea = document.getElementById('followersArea');
-			followersArea.appendChild(div);
+			df.firstChild.className = 'panel panel-default userBox';
+			followersArea.appendChild(df);
 		}
 		else {
-			usersArea.appendChild(div);
+			usersArea.appendChild(df);
 		}
 	}
 }
@@ -30,32 +30,27 @@ function createUserDiv(username, isFollowing) {
 	var df = document.createDocumentFragment();
 
 	var div1 = document.createElement('div');
-	div1.className = 'panel panel-default col-xs-2 userBox';
-	div1.id = username;
+		div1.className = 'panel panel-default col-xs-2 userBox';
+		div1.id = username;
 
 	var div2 = document.createElement('div');
-	div2.className = 'panel-body';
+		div2.className = 'panel-body';
 
 	var img = document.createElement('img');
-	img.src = '../images/useravatar_preview.png';
+		img.src = '../images/useravatar_preview.png';
 
 	var br = document.createElement('br');
 
 	var button = document.createElement('button');
-	button.className = 'btn btn-primary';
-	button.addEventListener('click', function () {
-		toggleFollow(this);
-	});
+		button.className = 'btn btn-primary';
+		button.addEventListener('click', function () {
+			toggleFollow(this);
+		});
 
-	if (isFollowing) {
-		button.innerText = 'Unfollow';
-	}
-	else {
-		button.innerText = 'Follow';
-	}
+		isFollowing ? button.innerText = 'Unfollow' : button.innerText = 'Follow';
 
 	var p = document.createElement('p');
-	p.innerText = username;
+		p.innerText = username;
 
 	df.appendChild(div1);
 	div1.appendChild(div2);
@@ -71,27 +66,21 @@ function toggleFollow(element) {
 	var followers = document.getElementById('followersArea');
 	var div = element.parentNode.parentNode;
 
-	if (element.innerText === 'Follow') {
-		for (var i = 0; i < users.length; i++) {
-			if (users[i].hasOwnProperty(div.id)) {
-				users[i].isFollowing = false;
-				break;
-			}
+	for (var i = 0; i < users.length; i++) {
+		if (element.innerHTML === 'Follow' && users[i].username === div.id) {
+			users[i].isFollowing = false;
+			element.innerText = 'Unfollow';
+			div.classList.remove('col-xs-2');
+			followers.appendChild(div);
+			return;
 		}
-		element.innerText = 'Unfollow';
-		div.classList.remove('col-xs-2');
-		followers.appendChild(div);
-	}
-	else if (element.innerText === 'Unfollow') {
-		for (var i = 0; i < users.length; i++) {
-			if (users[i].hasOwnProperty(div.id)) {
-				users[i].isFollowing = true;
-				break;
-			}
+		else if (element.innerHTML === 'Unfollow' && users[i].username === div.id) {
+			users[i].isFollowing = true;
+			element.innerText = 'Follow';
+			div.classList.add('col-xs-2');
+			usersArea.appendChild(div);
+			return;
 		}
-		element.innerText = 'Follow';
-		div.classList.add('col-xs-2');
-		usersArea.appendChild(div);
 	}
 }
 
@@ -104,11 +93,7 @@ function filterUsers() {
 
 	for (var i = 0; i < boxes.length; i++) {
 		var name = boxes[i].getElementsByTagName('p')[0];
-		if (name.innerHTML.toUpperCase().indexOf(filter) > -1) {
-			boxes[i].style.display = '';
-		}
-		else  {
-			boxes[i].style.display = 'none';
-		}
+		name.innerHTML.toUpperCase().indexOf(filter) > -1 ? boxes[i].style.display = '' : boxes[i].style.display = 'none';
 	}
+	/**/
 }
