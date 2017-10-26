@@ -1,3 +1,4 @@
+/* */
 var users = [
 	{'username': 'Rick Sanches', 'isFollowing': true},
 	{'username': 'Bird Person', 'isFollowing': true},
