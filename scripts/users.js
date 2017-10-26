@@ -1,61 +1,62 @@
 var users = [
-	{ "username": "Rick Sanches", "isFollowing": true},
-	{ "username": "Bird Person", "isFollowing": true},
-	{ "username": "Deadpool", "isFollowing": false},
-	{ "username": "Morty Smith", "isFollowing": false},
-	{ "username": "Abradolf Linkler", "isFollowing": false},
-	{ "username": "Summer Smith", "isFollowing": false},
-	{ "username": "Jack Sparrow", "isFollowing": false},
-	{ "username": "Noob Noob", "isFollowing": false}
+	{'username': 'Rick Sanches', 'isFollowing': true},
+	{'username': 'Bird Person', 'isFollowing': true},
+	{'username': 'Deadpool', 'isFollowing': false},
+	{'username': 'Morty Smith', 'isFollowing': false},
+	{'username': 'Abradolf Linkler', 'isFollowing': false},
+	{'username': 'Summer Smith', 'isFollowing': false},
+	{'username': 'Jack Sparrow', 'isFollowing': false},
+	{'username': 'Noob Noob', 'isFollowing': false}
 ];
 
 function populateUsers() {
-	var usersArea = document.getElementById("usersArea");
+	var usersArea = document.getElementById('usersArea');
 
 	for (var i = 0; i < users.length; i++) {
-		var div = createUserDiv(users[i].username,users[i].isFollowing);
+		var div = createUserDiv(users[i].username, users[i].isFollowing);
 
-
-		if (users[i].isFollowing){
-			div.firstChild.className = "panel panel-default userBox";
+		if (users[i].isFollowing) {
+			div.firstChild.className = 'panel panel-default userBox';
 			var followersArea = document.getElementById('followersArea');
 			followersArea.appendChild(div);
 		}
 		else {
-            usersArea.appendChild(div);
-        }
+			usersArea.appendChild(div);
+		}
 	}
 }
 
-function createUserDiv(username,isFollowing) {
+function createUserDiv(username, isFollowing) {
 	var df = document.createDocumentFragment();
 	var div1 = document.createElement('div');
-	div1.className = "panel panel-default col-xs-2 userBox";
-    df.appendChild(div1);
+	div1.className = 'panel panel-default col-xs-2 userBox';
+	df.appendChild(div1);
 
 	var div2 = document.createElement('div');
-	div2.className = "panel-body";
-    div1.appendChild(div2);
+	div2.className = 'panel-body';
+	div1.appendChild(div2);
 
 	var img = document.createElement('img');
-	img.src = "../images/useravatar_preview.png";
-    div2.appendChild(img);
+	img.src = '../images/useravatar_preview.png';
+	div2.appendChild(img);
 
 	var br = document.createElement('br');
-    div2.appendChild(br);
+	div2.appendChild(br);
 
 	var button = document.createElement('button');
-	button.className = "btn btn-primary";
-	button.id = username + "Btn";
-	button.addEventListener("click", function () {toggleFollow(this) });
+	button.className = 'btn btn-primary';
+	button.id = username + 'Btn';
+	button.addEventListener('click', function () {
+		toggleFollow(this);
+	});
 
 	if (isFollowing) {
-		button.innerText = "Unfollow";
+		button.innerText = 'Unfollow';
 	}
 	else {
-		button.innerText = "Follow";
+		button.innerText = 'Follow';
 	}
-    div2.appendChild(button);
+	div2.appendChild(button);
 
 	var p = document.createElement('p');
 	p.innerText = username;
@@ -65,52 +66,46 @@ function createUserDiv(username,isFollowing) {
 }
 
 function toggleFollow(element) {
-    var followers = document.getElementById("followersArea");
-    var usersArea = document.getElementById("usersArea");
+	var followers = document.getElementById('followersArea');
+	var usersArea = document.getElementById('usersArea');
 
-	if (element.innerText === "Follow") {
-		for (var i = 0; i < users.length; i++)
-		{
-			if (element.id === users[i].username + "Btn"){
+	if (element.innerText === 'Follow') {
+		for (var i = 0; i < users.length; i++) {
+			if (element.id === users[i].username + 'Btn') {
 				users[i].isFollowing = false;
-                break;
+				break;
 			}
 		}
-		element.innerText = "Unfollow";
-		element.parentNode.parentNode.classList.remove("col-xs-2");
+		element.innerText = 'Unfollow';
+		element.parentNode.parentNode.classList.remove('col-xs-2');
 		followers.appendChild(element.parentNode.parentNode);
 	}
-	else if (element.innerText === "Unfollow") {
-		for (var i = 0; i < users.length; i++)
-		{
-			if (element.id === users[i].username + "Btn"){
+	else if (element.innerText === 'Unfollow') {
+		for (var i = 0; i < users.length; i++) {
+			if (element.id === users[i].username + 'Btn') {
 				users[i].isFollowing = true;
 				break;
 			}
 		}
-		element.innerText = "Follow";
-        element.parentNode.parentNode.classList.add("col-xs-2");
-        usersArea.appendChild(element.parentNode.parentNode);
+		element.innerText = 'Follow';
+		element.parentNode.parentNode.classList.add('col-xs-2');
+		usersArea.appendChild(element.parentNode.parentNode);
 	}
 }
 
-function filterUsers(textbox) {
-    var allUsers = document.getElementsByClassName("userBox");
-    var element = document.getElementById("search_txtbx");
-    var name = element.value;
+function filterUsers() {
+	var input = document.getElementById('search_txtbx');
+	console.log(input.value.toUpperCase());
+	var filter = input.value.toUpperCase();
+	var boxes = document.getElementsByClassName('userBox');
 
-    if (name == '') {
-        for (var i=0; i < allUsers.length; i++) {
-            allUsers[i].style.display = "block";
-        }
-    }
-    else {
-        for (var i=0; i < allUsers.length; i++) {
-            if (allUsers[i].style.display != "none") {
-                if (allUsers[i].firstChild.children[3].innerText.indexOf(name) == -1 ) {
-                    allUsers[i].style.display = "none";
-                }
-            }
-        }
-    }
+	for (var i = 0; i < boxes.length; i++) {
+		var name = boxes[i].getElementsByTagName('p')[0];
+		if (name.innerHTML.toUpperCase().indexOf(filter) > -1) {
+			boxes[i].style.display = '';
+		}
+		else  {
+			boxes[i].style.display = 'none';
+		}
+	}
 }
