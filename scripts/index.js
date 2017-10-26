@@ -20,6 +20,7 @@ function addTweet() {
 
 	var df = createPostDiv("someone",textBox.value);
 	feed.appendChild(df);
+	posts.push({username: '11', test: textBox.value});
 	textBox.value = "";
 }
 
