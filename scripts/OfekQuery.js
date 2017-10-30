@@ -6,46 +6,7 @@ var ofekQuery = function (query) {
 
 	if (query.split(" ").length > 1)
 	{
-
-		var first = query.split(" ")[0];
-		var rest = query.split(" ").slice(1);
-		var curr_elements;
-
-		if (first.match(/^#.*/i))
-		{
-			curr_elements = (document.getElementById(first.substring(1)));
-		}
-		else if (query.match(/^\..*/i)){
-			curr_elements = document.getElementsByClassName(first.substring(1));
-		}
-		else if (query.match(/^\w.*/i)) {
-			curr_elements = document.getElementsByTagName(first);
-		}
-		curr_elements = [].slice.call(curr_elements);
-
-		for (var e = 0; e < curr_elements.length; e++) {
-			if (curr_elements[e].hasChildNodes())
-			{
-				for (var i = 0; i < rest.length; i++ ) {
-					var temp = rest[i];
-					var children;
-					if (temp.match(/^#.*/i))
-					{
-						children =(document.getElementById(temp.substring(1)));
-					}
-					else if (temp.match(/^\..*/i)){
-						children = document.getElementsByClassName(temp.substring(1));
-					}
-					else if (temp.match(/^\w.*/i)) {
-						children = document.getElementsByTagName(temp);
-					}
-					alert(children);
-					//curr_elements += children;
-				}
-			}
-		}
-
-		this.elements = curr_elements;
+		this.elements = recurseElements(query);
 	}
 	else
 	{
@@ -188,6 +149,30 @@ var ofekQuery = function (query) {
 	};
 };
 
-function itemselector(items,name) {
+function recurseElements(id, context) {
+    if (!id) return false;
+    // context should be an array of previous nodes we have found.  If it's undefined, assume the single-item array [document] as the starting context
+    if (!context) context = [document];
 
+    var s = id.split(" ");
+    var first = s.shift();
+    var curr_elements = [], els;
+
+    for (var i=0; i < context.length; i++) {
+        var cont = context[i];
+        // make sure els gets converted into a real array of nodes
+        if (first.match(/^#.*/i)) {
+            els = [cont.getElementById(first.substring(1))];
+        } else if (first.match(/^\..*/i)) {
+            els = [].slice.call(cont.getElementsByClassName(first.substring(1)));
+        } else if (first.match(/^\w.*/i)) {
+            els = [].slice.call(cont.getElementsByTagName(first));
+        }
+        curr_elements = curr_elements.concat(els);
+    }
+
+    // if there are more items in s, then curr_elements is the context in which to find them.  Otherwise, curr_elements is the array of elements we were looking for.
+    if (s.length) return recurseElements(s.join(" "), curr_elements);
+
+    return curr_elements;
 }
