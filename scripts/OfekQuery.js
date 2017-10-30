@@ -3,10 +3,13 @@ function $(name) {
 }
 var ofekQuery = function (query) {
 	this.elements =[];
+
 	if (query.split(" ").length > 1)
 	{
+
 		var first = query.split(" ")[0];
-		var curr_elements = [];
+		var rest = query.split(" ").slice(1);
+		var curr_elements;
 
 		if (first.match(/^#.*/i))
 		{
@@ -18,21 +21,30 @@ var ofekQuery = function (query) {
 		else if (query.match(/^\w.*/i)) {
 			curr_elements = document.getElementsByTagName(first);
 		}
+		curr_elements = [].slice.call(curr_elements);
 
-		for (var i = 1; i < query.split(" ").length; i++ ) {
-			var temp = query.split(" ")[i];
-
-			if (temp.match(/^#.*/i))
+		for (var e = 0; e < curr_elements.length; e++) {
+			if (curr_elements[e].hasChildNodes())
 			{
-				curr_elements =(document.getElementById(temp.substring(1)));
-			}
-			else if (temp.match(/^\..*/i)){
-				curr_elements = document.getElementsByClassName(temp.substring(1));
-			}
-			else if (temp.match(/^\w.*/i)) {
-				curr_elements = document.getElementsByTagName(temp);
+				for (var i = 0; i < rest.length; i++ ) {
+					var temp = rest[i];
+					var children;
+					if (temp.match(/^#.*/i))
+					{
+						children =(document.getElementById(temp.substring(1)));
+					}
+					else if (temp.match(/^\..*/i)){
+						children = document.getElementsByClassName(temp.substring(1));
+					}
+					else if (temp.match(/^\w.*/i)) {
+						children = document.getElementsByTagName(temp);
+					}
+					alert(children);
+					//curr_elements += children;
+				}
 			}
 		}
+
 		this.elements = curr_elements;
 	}
 	else
@@ -175,3 +187,7 @@ var ofekQuery = function (query) {
 		return this.elements[index];
 	};
 };
+
+function itemselector(items,name) {
+
+}
