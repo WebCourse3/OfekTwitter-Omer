@@ -1,4 +1,5 @@
 function $(name) {
+
 	return new ofekQuery(name);
 }
 var ofekQuery = function (query) {
@@ -6,46 +7,7 @@ var ofekQuery = function (query) {
 
 	if (query.split(" ").length > 1)
 	{
-
-		var first = query.split(" ")[0];
-		var rest = query.split(" ").slice(1);
-		var curr_elements;
-
-		if (first.match(/^#.*/i))
-		{
-			curr_elements = (document.getElementById(first.substring(1)));
-		}
-		else if (query.match(/^\..*/i)){
-			curr_elements = document.getElementsByClassName(first.substring(1));
-		}
-		else if (query.match(/^\w.*/i)) {
-			curr_elements = document.getElementsByTagName(first);
-		}
-		curr_elements = [].slice.call(curr_elements);
-
-		for (var e = 0; e < curr_elements.length; e++) {
-			if (curr_elements[e].hasChildNodes())
-			{
-				for (var i = 0; i < rest.length; i++ ) {
-					var temp = rest[i];
-					var children;
-					if (temp.match(/^#.*/i))
-					{
-						children =(document.getElementById(temp.substring(1)));
-					}
-					else if (temp.match(/^\..*/i)){
-						children = document.getElementsByClassName(temp.substring(1));
-					}
-					else if (temp.match(/^\w.*/i)) {
-						children = document.getElementsByTagName(temp);
-					}
-					alert(children);
-					//curr_elements += children;
-				}
-			}
-		}
-
-		this.elements = curr_elements;
+		this.elements = recurseQuery(query);
 	}
 	else
 	{
@@ -64,12 +26,9 @@ var ofekQuery = function (query) {
 
 
 	this.get = function() {
-		for (var i = 0; i< this.elements.length; i++)
-		{
-			alert(this.elements[i]);
-		}
+		console.log(this.elements);
 	};
-	
+
 	this.addClass = function (className) {
 		for (var i = 0; i < this.elements.length; i++) {
 			this.elements[i].classList.add(className);
@@ -188,6 +147,214 @@ var ofekQuery = function (query) {
 	};
 };
 
-function itemselector(items,name) {
+function recurseQuery(selector, elements) {
+	if (!selector) {
+		return false; }
 
+	if (!elements) {
+		elements = [document];
+	}
+
+	var query = selector.split(" ");
+	var first = query.shift();
+	var curr_elements = [];
+	var els;
+
+	for (var i=0; i < elements.length; i++) {
+		var c = elements[i];
+		// make sure els gets converted into a real array of nodes
+		if (first.match(/^#.*/i)) {
+			els = [c.getElementById(first.substring(1))];
+		} else if (first.match(/^\..*/i)) {
+			els = [].slice.call(c.getElementsByClassName(first.substring(1)));
+		} else if (first.match(/^\w.*/i)) {
+			els = [].slice.call(c.getElementsByTagName(first));
+		}
+		curr_elements = curr_elements.concat(els);
+	}
+
+
+	if (query.length) return recurseQuery(query.join(" "), curr_elements);
+
+	return curr_elements;
+}
+
+function doHirarchy(query) {
+	var elementsArray = [];
+	var potentialElements = [];
+	var potentialPElements = [];
+	var delArr = [];
+	var query = query.split(" ");
+
+	var last = query.pop();
+
+	if (last.match(/^#.*/i))
+	{
+		elementsArray = [document.getElementById(last.substring(1))];
+	}
+	else if (last.match(/^\..*/i)){
+		elementsArray = [document.getElementsByClassName(last.substring(1))];
+	}
+	else if (last.match(/^\w.*/i)) {
+		elementsArray = [document.getElementsByTagName(last)];
+	}
+
+	for (var q = query.length -1; q >= 0; q--) {
+		for (var e = 0; e < elementsArray.length; e++) {
+			var parentEl;
+			var curr_q = query[queryIndex];
+
+			if (q === arr.length -1) {
+				if (curr_q.match(/^#.*/i))
+				{
+					parentEl = elementsArray[e].parentElement.id;
+					if(parentEl.id === q.toLowerCase().substring(1)) {
+						potentialElements.push(elementsArray[e]);
+						potentialPElements.push(elementsArray[e].parentElement);
+					}
+
+				}
+				else if (curr_q.match(/^\..*/i)){
+					parentEl = elementsArray[e].parentElement.classList;
+					if(parentEl.contains(q.toLowerCase().substring(1,q.length))) {
+						potentialElements.push(elementsArray[e]);
+						potentialPElements.push(elementsArray[e].parentElement);
+					}
+				}
+				else if (curr_q.match(/^\w.*/i)) {
+					parentEl = elementsArray[e].parentElement.tagName;
+					if(parentEl === q.toLowerCase()) {
+						potentialElements.push(elementsArray[e]);
+						potentialPElements.push(elementsArray[e].parentElement);
+					}
+				}
+			}
+			else {
+
+				if (curr_q.match(/^\..*/i)) {
+					parentElementName = elementsArr[innerIndex].parentElement.classList;
+
+					if (parentElementName.contains(arr[currIndex].toLowerCase().substring(1, arr[currIndex].length))) {
+						checkHierarchialList.push(elementsArr[innerIndex].parentElement);
+					}
+				}
+				else if (curr_q.match(/^#.*/i)){
+					parentElementName = elementsArr[innerIndex].parentElement.id;
+
+					if (parentElementName == arr[currIndex].toLowerCase().substring(1, arr[currIndex].length)) {
+						checkHierarchialList.push(elementsArr[innerIndex].parentElement);
+					}
+				}
+				else {
+					parentElementName = elementsArr[innerIndex].parentElement.tagName;
+				}
+
+				if (arr[currIndex].startsWith('.') &&
+					(parentElementName.contains(arr[currIndex].toLowerCase().substring(1, arr[currIndex].length)))){
+
+					checkHierarchialList.push(elementsArr[innerIndex].parentElement);
+				}
+				else if (arr[currIndex].startsWith('#') &&
+					parentElementName == arr[currIndex].toLowerCase().substring(1, arr[currIndex].length)){
+					checkHierarchialList.push(elementsArr[innerIndex].parentElement);
+				}
+				else if (parentElementName != arr[currIndex].toUpperCase()) {
+					elementsToDelete.push(innerIndex);
+				}
+				else {
+					checkHierarchialList.push(elementsArr[innerIndex].parentElement);
+				}
+			}
+		}
+
+	}
+
+
+	///////////////////////////////////
+	for (var currIndex = arr.length - 2; currIndex >= 0 ; currIndex--){
+
+		for (var innerIndex = 0; innerIndex < elementsArr.length; innerIndex++){
+
+			if (currIndex == arr.length - 2) {
+
+				var parentElementName;
+
+				if (arr[currIndex].startsWith('.')){
+					parentElementName = elementsArr[innerIndex].parentElement.classList;
+
+					if (parentElementName.contains(arr[currIndex].toLowerCase().substring(1))) {
+						hierarchialList.push(elementsArr[innerIndex]);
+						checkHierarchialList.push(elementsArr[innerIndex].parentElement);
+					}
+
+				}
+				else if (arr[currIndex].startsWith('#')){
+					parentElementName = elementsArr[innerIndex].parentElement.id;
+
+					if (parentElementName == arr[currIndex].toLowerCase().substring(1)) {
+						hierarchialList.push(elementsArr[innerIndex]);
+						checkHierarchialList.push(elementsArr[innerIndex].parentElement);
+					}
+				}
+				else {
+					parentElementName = elementsArr[innerIndex].parentElement.tagName;
+					if (parentElementName === arr[currIndex].toUpperCase()) {
+						hierarchialList.push(elementsArr[innerIndex]);
+						checkHierarchialList.push(elementsArr[innerIndex].parentElement);
+					}
+				}
+
+
+			}
+			else {
+
+				var parentElementName;
+
+				if (arr[currIndex].startsWith('.')){
+					parentElementName = elementsArr[innerIndex].parentElement.classList;
+
+					if (parentElementName.contains(arr[currIndex].toLowerCase().substring(1, arr[currIndex].length))) {
+						checkHierarchialList.push(elementsArr[innerIndex].parentElement);
+					}
+				}
+				else if (arr[currIndex].startsWith('#')){
+					parentElementName = elementsArr[innerIndex].parentElement.id;
+
+					if (parentElementName == arr[currIndex].toLowerCase().substring(1, arr[currIndex].length)) {
+						checkHierarchialList.push(elementsArr[innerIndex].parentElement);
+					}
+				}
+				else {
+					parentElementName = elementsArr[innerIndex].parentElement.tagName;
+				}
+
+				if (arr[currIndex].startsWith('.') &&
+					(parentElementName.contains(arr[currIndex].toLowerCase().substring(1, arr[currIndex].length)))){
+
+					checkHierarchialList.push(elementsArr[innerIndex].parentElement);
+				}
+				else if (arr[currIndex].startsWith('#') &&
+					parentElementName == arr[currIndex].toLowerCase().substring(1, arr[currIndex].length)){
+					checkHierarchialList.push(elementsArr[innerIndex].parentElement);
+				}
+				else if (parentElementName != arr[currIndex].toUpperCase()) {
+					elementsToDelete.push(innerIndex);
+				}
+				else {
+					checkHierarchialList.push(elementsArr[innerIndex].parentElement);
+				}
+			}
+		}
+
+		// Delete the elements
+		for (var deleteIndex = elementsToDelete.length - 1; deleteIndex >= 0; deleteIndex--){
+			hierarchialList.splice(elementsToDelete[deleteIndex], 1);
+		}
+
+		elementsToDelete = [];
+		elementsArr = checkHierarchialList;
+		checkHierarchialList = [];
+	}
+
+	return (hierarchialList);
 }
