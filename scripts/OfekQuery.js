@@ -1,7 +1,7 @@
 function $(name) {
 
 	return new ofekQuery(name);
-}
+}/**/
 var ofekQuery = function (query) {
 	this.elements =[];
 
