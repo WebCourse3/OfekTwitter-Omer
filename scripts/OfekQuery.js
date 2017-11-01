@@ -7,7 +7,7 @@ var ofekQuery = function (query) {
 
 	if (query.split(" ").length > 1)
 	{
-		this.elements = recurseQuery(query);
+		this.elements = doHirarchy(query);
 	}
 	else
 	{
